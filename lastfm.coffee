@@ -5,15 +5,16 @@ http = require 'http'
 restclient = require 'node-restclient'
 util = require 'util'
 
-app = express.createServer()
 lastfm_api_key = "b5f4ec6308ea9378b9e82fbf7f3edf65"
 
-app.get '/', (req, res) =>
-    res.render 'index.html'
-    res.send('hello world')
+app = express.createServer()
+app.use(express.staticProvider(__dirname + '/public'))
 
-app.get '/hello/:user', (req, res) =>
-    fetch_fave_artists req.params.user, (fave_artists) =>
+app.get '/', (req, res) =>
+    res.render 'index.haml', { layout: false }
+
+app.get '/user', (req, res) =>
+    fetch_fave_artists req.param("lastfm_username"), (fave_artists) =>
         res.send(fave_artists)
     
 dummy_fetch_fave_artists = (username, callback) =>
