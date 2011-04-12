@@ -1,13 +1,14 @@
+!!!
 %html(lang="en")
   %head
-    %title = "Last.FM Wordle"
+    %title Last.FM Wordle
     %link(rel="stylesheet" href="/themstyles.css")
     %meta(charset="UTF-8")
   %body
     #container
       #content
         %form(id="dummy")
-          %label(for="lastfm_username") = "what's your last.fm username?"
+          %label(for="lastfm_username") what's your last.fm username?
           %input(name="lastfm_username" id="lastfm_username" autofocus="autofocus" autocomplete="off")
             %br
           %a(id="visualize" class="large magenta awesome") visualize!
@@ -19,7 +20,7 @@
       %script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js")
       %script(src="thempipes.js")
     #links
-      %span = "Designed by "
+      %span Designed by
       %a(href="http://markhansen.co.nz/") Mark Hansen
     #lastfm_logo
       %a(href="http://www.last.fm/")

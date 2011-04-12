@@ -79,7 +79,7 @@ transform_to_wordle_string = (artists) ->
     text_artists = for artist in artists
         # whitespace and colons are delimiters in wordle's input.
         # replace them with harmless (to wordle) tildes
-        clean_name = artist.name.replace(/(\s|:)/g, "~")
+        clean_name = artist.name.replace(/[:"]/g, "~")
         clean_name + ":" + artist.playcount
 
     return text = text_artists.join "\n"
