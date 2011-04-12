@@ -1,25 +1,26 @@
 %html(lang="en")
   %head
     %title = "Last.FM Wordle"
-    %link{rel: "stylesheet", href: "/themstyles.css"}
+    %link(rel="stylesheet" href="/themstyles.css")
+    %meta(charset="UTF-8")
   %body
     #container
       #content
-        %form{id: "dummy"}
-          %label{for: "lastfm_username"} = "what's your last.fm username?"
-          %input{name: "lastfm_username", id: "lastfm_username", autofocus: "autofocus", autocomplete:"off"}
+        %form(id="dummy")
+          %label(for="lastfm_username") = "what's your last.fm username?"
+          %input(name="lastfm_username" id="lastfm_username" autofocus="autofocus" autocomplete="off")
             %br
-          %a{id: "visualize", class: "large magenta awesome"} visualize!
-          #throbber{style:"display:none"}
+          %a(id="visualize" class="large magenta awesome") visualize!
+          #throbber(style="display:none")
             Fetching...
-            %img{src:"ajax-loader.gif"}
-        %form{method: "POST", action: "http://www.wordle.net/advanced", id: "wordle"}
-          %input{type: "hidden", name: "wordcounts", id: "wordle_input"}
-      %script{src: "http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"}
-      %script{src: "thempipes.js"}
+            %img(src="ajax-loader.gif")
+        %form(method="POST" action="http://www.wordle.net/advanced" id="wordle")
+          %input(type="hidden" name="wordcounts" id="wordle_input")
+      %script(src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js")
+      %script(src="thempipes.js")
     #links
-      %span = "Coded by "
-      %a{href: "http://markhansen.co.nz/"} Mark Hansen
+      %span = "Designed by "
+      %a(href="http://markhansen.co.nz/") Mark Hansen
     #lastfm_logo
-      %a{href:"http://www.last.fm/"}
-        %img{src: "Last.fm_Logo_White.png", alt:"Powered by Audioscrobbler", width:"100px"}
+      %a(href="http://www.last.fm/")
+        %img(src="Last.fm_Logo_White.png" alt="Powered by Audioscrobbler" width="100px")

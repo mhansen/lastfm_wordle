@@ -10,16 +10,16 @@
         window.alert("Enter a username");
         return;
       }
-      $("#visualize").fadeOut(500, function() {
+      $("#visualize").fadeOut(200, function() {
         return $("#throbber").fadeIn(500);
       });
       fetch_fave_artists(username, function(err, artists) {
         if (err != null) {
-          reset;
+          reset();
           return alert("ERROR: " + err);
         }
         if (artists.length === 0) {
-          reset;
+          reset();
           return alert("Sorry, there's no songs in your library.");
         }
         $("#wordle_input").val(transform_to_wordle_string(artists));
@@ -28,8 +28,12 @@
       return false;
     });
     reset = function() {
-      $("#visualize").show;
-      return $("#throbber").hide;
+      $("#visualize").stop();
+      $("#throbber").stop();
+      $("#throbber").fadeOut(200, function() {
+        return $("#visualize").fadeIn(500);
+      });
+      return $("#lastfm_username").select();
     };
     $("#dummy").submit(__bind(function() {
       $("#visualize").click();
@@ -78,7 +82,7 @@
     return get_top_artists_page(1, function(err, json) {
       var metadata, totalPages, _i, _results;
       metadata = json.topartists['@attr'] || json.topartists['#text'];
-      totalPages = metadata.totalPage;
+      totalPages = metadata.totalPages;
       if (totalPages >= 1) {
         add_artists(json);
       }
@@ -98,6 +102,8 @@
           }
           return callback(null, top_artists);
         });
+      } else {
+        return callback(null, top_artists);
       }
     });
   };
@@ -148,7 +154,7 @@
     assert = require('assert');
     start = [1, 2, 3];
     expected = [2, 3, 4];
-    return map_async(start, __bind(function(i, cb) {
+    return async_map(start, __bind(function(i, cb) {
       return cb(null, i + 1);
     }, this), __bind(function(err, result) {
       return assert.deepEqual(result, expected);

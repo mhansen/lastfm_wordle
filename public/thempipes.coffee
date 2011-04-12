@@ -6,15 +6,15 @@ if window?
             window.alert "Enter a username"
             return
 
-        $("#visualize").fadeOut 500, () -> $("#throbber").fadeIn 500
+        $("#visualize").fadeOut 200, () -> $("#throbber").fadeIn 500
 
         fetch_fave_artists username, (err, artists) ->
             if err?
-                reset
+                reset()
                 return alert "ERROR: " + err
 
             if artists.length == 0
-                reset
+                reset()
                 return alert "Sorry, there's no songs in your library."
 
             $("#wordle_input").val transform_to_wordle_string artists
@@ -22,10 +22,12 @@ if window?
         false
 
     reset = () ->
-        $("#visualize").show
-        $("#throbber").hide
+        $("#visualize").stop()
+        $("#throbber").stop()
+        $("#throbber").fadeOut 200, () -> $("#visualize").fadeIn 500
+        $("#lastfm_username").select()
 
-# handle enter key hits on the textbox manually, because otherwise the form will submit to this page, and nothing will happen.
+    # handle enter key hits on the textbox manually, because otherwise the form will submit to this page, and nothing will happen.
     $("#dummy").submit () =>
         $("#visualize").click()
         false # stop the default submit event
@@ -48,7 +50,8 @@ fetch_fave_artists = (username, callback) ->
             error: (xhr, errtype, e) => callback(errtype, null)
             dataType: "jsonp"
         }
-    fetch_pages = (page_numbers, callback) => async_map page_numbers, get_top_artists_page, callback
+    fetch_pages = (page_numbers, callback) =>
+        async_map page_numbers, get_top_artists_page, callback
     top_artists = []
     add_artists = (json_response) ->
         for artist in json_response.topartists.artist
@@ -57,7 +60,7 @@ fetch_fave_artists = (username, callback) ->
     # get the first one
     get_top_artists_page 1, (err, json) ->
         metadata = json.topartists['@attr'] || json.topartists['#text']
-        totalPages = metadata.totalPage
+        totalPages = metadata.totalPages
 
         if totalPages >= 1
             add_artists json
@@ -68,6 +71,8 @@ fetch_fave_artists = (username, callback) ->
                     return callback(err, null)
                 add_artists json for json in jsons
                 callback null, top_artists
+        else
+            callback null, top_artists
 
 
 transform_to_wordle_string = (artists) ->
@@ -110,7 +115,7 @@ test = () =>
     start = [1, 2, 3]
     expected = [2, 3, 4]
 
-    map_async start,
+    async_map start,
         (i, cb) => cb(null, i + 1),
         (err, result) =>
             assert.deepEqual(result, expected)

@@ -31,7 +31,7 @@ body {
     color: #ffffff;
 }
 
-#links {
+#links, #links a:visited {
     font-size: 1.5em;
     font-style: italic;
     color: #333;
@@ -40,15 +40,17 @@ body {
     right: 0;
     bottom: 18px; /* half the height of the logo, as required by last.fm */
     right: 18px;
+    text-decoration: none;
 }
 
-#lastfm_username, #links a {
+#lastfm_username, #links a:hover {
     color: #89FC63; /* green i-beam is super visible */
 }
 #lastfm_logo {
     bottom: 18px; /* half the height of the logo, as required by last.fm */
     left: 18px;
     position: absolute; 
+    z-index: -1;
 }
 
 .awesome, .awesome:visited {
@@ -75,7 +77,7 @@ body {
 .small.awesome, .small.awesome:visited                                  { font-size: 11px; padding: ; }
 .awesome, .awesome:visited,
 .medium.awesome, .medium.awesome:visited { font-size: 13px; font-weight: bold; line-height: 1; text-shadow: 0 -1px 1px rgba(0,0,0,0.25); }
-.large.largeawesome, .large.awesome:visited { font-size: 14px; padding: 8px 14px 9px; }
+.large.awesome, .large.awesome:visited { font-size: 14px; padding: 8px 14px 9px; }
 
 .green.awesome, .green.awesome:visited{ background-color:               #91bd09; }
 .green.awesome:hover{ background-color: #749a02; }
