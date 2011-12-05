@@ -2,7 +2,6 @@ body {
     background-color: #222;
 }
 #container {
-    margin-left:18px; /* kick it in just a little bit so you can see the i-beam */
     position: absolute;
     top: 50%; /* why does vertical centering still suck so bad in CSS? */
     margin-top: -184px; /* about half the height of #container */
@@ -13,6 +12,7 @@ body {
 #lastfm_username:focus {
     outline: none;
     background-color: #444;
+    color: #ffffff;
 }
 
 #lastfm_username {
@@ -21,10 +21,11 @@ body {
     background-color: #333; /* aww yeah, light up the textbox */
     font-weight: bold; /* keep it a bit sassy */
     border: 0;
-    padding:18px; /* kick it in just a little bit so you can see the i-beam */
+    padding:18px; /* kick the i-beam in just a little bit so you can see it */
 }
 
-#visualize, label, #throbber { /* consistency: applying the same style to different things! */
+#visualize, label, #throbber { 
+    /* consistency: applying the same style to different things! */
     font-size: 80px;
     font-style: italic;
     text-transform: lowercase; /* caps are lame */
@@ -43,8 +44,8 @@ body {
     text-decoration: none;
 }
 
-#lastfm_username, #links a:hover {
-    color: #89FC63; /* green i-beam is super visible */
+#links a:hover {
+    color: #a9014b;
 }
 #lastfm_logo {
     bottom: 18px; /* half the height of the logo, as required by last.fm */
