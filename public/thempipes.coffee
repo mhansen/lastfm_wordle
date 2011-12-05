@@ -1,12 +1,13 @@
 if window?
-    $("#visualize").click () ->
+    $("#visualize").click (e) ->
         username = $("#lastfm_username").val()
         $.get("/gen204?username=" + username)
-        if username == ""
+        if not username
             window.alert "Enter a username"
             return
 
-        $("#visualize").fadeOut 200, () -> $("#throbber").fadeIn 500
+        $("#visualize").fadeOut 200, ->
+          $("#throbber").fadeIn 500
 
         fetch_fave_artists username, (err, artists) ->
             if err?
@@ -19,38 +20,37 @@ if window?
 
             $("#wordle_input").val transform_to_wordle_string artists
             $("#wordle").submit()
-        false
+        e.preventDefault()
 
-    reset = () ->
+    reset = ->
         $("#visualize").stop()
         $("#throbber").stop()
-        $("#throbber").fadeOut 200, () -> $("#visualize").fadeIn 500
+        $("#throbber").fadeOut 200, -> $("#visualize").fadeIn 500
         $("#lastfm_username").select()
 
-    # handle enter key hits on the textbox manually, because otherwise the form will submit to this page, and nothing will happen.
-    $("#dummy").submit () =>
+    # handle enter key hits on the textbox manually, because otherwise the form
+    # will submit to this page, and nothing will happen.
+    $("#dummy").submit (e) ->
         $("#visualize").click()
-        false # stop the default submit event
+        e.preventDefault()
 
 fetch_fave_artists = (username, callback) ->
     get_top_artists_page = (page, callback) ->
-        ajax_data = {
-            format: "json"
-            api_key: "b5f4ec6308ea9378b9e82fbf7f3edf65"
-            format: "json"
-            method: "user.gettopartists"
-            user: username
-            page: page
-        }
-        $.ajax {
+        $.ajax
             url: "http://ws.audioscrobbler.com/2.0/"
             type: "get"
-            data: ajax_data,
-            success: (json) => callback(null, json)
-            error: (xhr, errtype, e) => callback(errtype, null)
+            success: (json) -> callback(null, json)
+            error: (xhr, errtype, e) -> callback(errtype, null)
             dataType: "jsonp"
-        }
-    fetch_pages = (page_numbers, callback) =>
+            data:
+              format: "json"
+              api_key: "b5f4ec6308ea9378b9e82fbf7f3edf65"
+              format: "json"
+              method: "user.gettopartists"
+              user: username
+              page: page
+
+    fetch_pages = (page_numbers, callback) ->
         async_map page_numbers, get_top_artists_page, callback
     top_artists = []
     add_artists = (json_response) ->
@@ -110,13 +110,15 @@ async_map = (arr, iterator, callback) ->
                 if n_results == arr.length
                     return callback(null, results)
 
-test = () =>
+test = ->
     assert = require 'assert'
     start = [1, 2, 3]
     expected = [2, 3, 4]
 
     async_map start,
-        (i, cb) => cb(null, i + 1),
-        (err, result) =>
+        (i, cb) -> cb(null, i + 1),
+        (err, result) ->
             assert.deepEqual(result, expected)
-test() if not window?
+
+# Serverside testing in node.js, love it!
+if not window? then test()
